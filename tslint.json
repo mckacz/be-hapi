@@ -1,0 +1,175 @@
+{
+  "rules": {
+    "adjacent-overload-signatures": true,
+    "member-access": [
+      true,
+      "no-public"
+    ],
+    "member-ordering": [
+      true,
+      "static-before-instance",
+      "variables-before-functions"
+    ],
+    "no-import-side-effect": true,
+    "no-inferrable-types": true,
+    "no-parameter-reassignment": true,
+    "no-var-requires": true,
+    "prefer-for-of": true,
+    "promise-function-async": true,
+    "typedef-whitespace": [
+      true,
+      {
+        "call-signature": "nospace",
+        "index-signature": "nospace",
+        "parameter": "nospace",
+        "property-declaration": "nospace",
+        "variable-declaration": "nospace"
+      }
+    ],
+    "await-promise": [
+      true,
+      "Thenable"
+    ],
+    "ban-comma-operator": true,
+    "curly": true,
+    "label-position": true,
+    "no-arg": true,
+    "no-conditional-assignment": true,
+    "no-construct": true,
+    "no-debugger": true,
+    "no-duplicate-super": true,
+    "no-duplicate-switch-case": true,
+    "no-duplicate-variable": true,
+    "no-dynamic-delete": true,
+    "no-eval": true,
+    "no-floating-promises": true,
+    "no-for-in-array": true,
+    "no-implicit-dependencies": true,
+    "no-inferred-empty-object-type": true,
+    "no-invalid-template-strings": true,
+    "no-invalid-this": true,
+    "no-misused-new": true,
+    "no-null-keyword": true,
+    "no-object-literal-type-assertion": true,
+    "no-return-await": true,
+    "no-shadowed-variable": true,
+    "no-sparse-arrays": true,
+    "no-string-literal": true,
+    "no-string-throw": true,
+    "no-submodule-imports": true,
+    "no-switch-case-fall-through": true,
+    "no-this-assignment": true,
+    "no-unsafe-finally": true,
+    "no-unused-expression": true,
+    "no-use-before-declare": true,
+    "no-var-keyword": true,
+    "no-void-expression": [
+      true,
+      "ignore-arrow-function-shorthand"
+    ],
+    "prefer-conditional-expression": true,
+    "prefer-object-spread": true,
+    "strict-type-predicates": true,
+    "switch-default": true,
+    "triple-equals": true,
+    "use-isnan": true,
+    "cyclomatic-complexity": [
+      true,
+      20
+    ],
+    "deprecation": true,
+    "eofline": true,
+    "indent": [
+      true,
+      "spaces",
+      2
+    ],
+    "linebreak-style": [
+      true,
+      "LF"
+    ],
+    "max-line-length": [
+      true,
+      120
+    ],
+    "no-duplicate-imports": true,
+    "no-require-imports": true,
+    "prefer-const": true,
+    "prefer-readonly": true,
+    "trailing-comma": true,
+    "align": true,
+    "array-type": [
+      true,
+      "array-simple"
+    ],
+    "arrow-parens": true,
+    "arrow-return-shorthand": true,
+    "class-name": true,
+    "encoding": true,
+    "file-name-casing": [
+      true,
+      "camel-case"
+    ],
+    "import-spacing": true,
+    "newline-before-return": true,
+    "new-parens": true,
+    "no-boolean-literal-compare": true,
+    "no-consecutive-blank-lines": [
+      true,
+      1
+    ],
+    "no-irregular-whitespace": true,
+    "no-trailing-whitespace": true,
+    "no-unnecessary-initializer": true,
+    "no-unnecessary-qualifier": true,
+    "number-literal-format": true,
+    "one-line": [
+      true,
+      "check-catch",
+      "check-finally",
+      "check-else",
+      "check-open-brace",
+      "check-whitespace"
+    ],
+    "one-variable-per-declaration": true,
+    "prefer-switch": [
+      true,
+      {
+        "min-cases": 2
+      }
+    ],
+    "prefer-template": true,
+    "prefer-while": true,
+    "quotemark": [
+      true,
+      "single"
+    ],
+    "semicolon": [
+      true,
+      "never"
+    ],
+    "space-within-parens": [
+      true,
+      0
+    ],
+    "switch-final-break": true,
+    "type-literal-delimiter": true,
+    "variable-name": [
+      true,
+      "ban-keywords",
+      "check-format"
+    ],
+    "whitespace": [
+      true,
+      "check-branch",
+      "check-operator",
+      "check-decl",
+      "check-module",
+      "check-separator",
+      "check-rest-spread",
+      "check-type",
+      "check-type-operator",
+      "check-preblock"
+    ]
+  }
+}
