@@ -4,22 +4,25 @@
   "description": "Class-based controllers with Inversify support for Hapi.",
   "author": "Maciej Kaczmarek <maciej@kaczmarek.io>",
   "license": "MIT",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "lint": "tslint --project .",
     "test": "jest",
-    "build": "tsc"
+    "build": "rimraf lib && tsc"
   },
   "dependencies": {
+    "@types/hapi": "^17.8.0",
     "hapi": "^17.8.1",
     "ramda": "^0.26.1"
   },
   "devDependencies": {
-    "@types/hapi": "^17.8.0",
     "@types/jest": "^23.3.10",
     "@types/node": "^10.12.12",
     "@types/ramda": "^0.25.44",
     "jest": "^23.6.0",
     "reflect-metadata": "^0.1.12",
+    "rimraf": "^2.6.2",
     "ts-jest": "^23.10.5",
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
