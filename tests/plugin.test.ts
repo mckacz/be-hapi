@@ -1,21 +1,21 @@
 import { cleanGlobalControllerList } from './utils'
-import { controller, route } from '../src/decorators'
-import plugin from '../src/plugin'
+import * as D from '../src/decorators'
+import plugin from '../src'
 
 describe('Plugin', () => {
   afterEach(cleanGlobalControllerList)
 
   test('Register routes', () => {
-    @controller()
+    @D.controller()
     class Foo {
 
-      @route({method: 'GET'})
-      @route({path: '/bar'})
+      @D.route({method: 'GET'})
+      @D.route({path: '/bar'})
       bar() {
 
       }
 
-      @route({path: '/baz'})
+      @D.route({path: '/baz'})
       baz() {
 
       }
@@ -39,16 +39,16 @@ describe('Plugin', () => {
   })
 
   test('Register routes with base path', () => {
-    @controller('/foo')
+    @D.controller('/foo')
     class Foo {
 
-      @route({method: 'GET'})
-      @route({path: '/bar'})
+      @D.route({method: 'GET'})
+      @D.route({path: '/bar'})
       bar() {
 
       }
 
-      @route({path: '/baz'})
+      @D.route({path: '/baz'})
       baz() {
 
       }
@@ -72,16 +72,16 @@ describe('Plugin', () => {
   })
 
   test('Register routes with base route spec', () => {
-    @controller('', {method: 'POST'})
+    @D.controller('', {method: 'POST'})
     class Foo {
 
-      @route({method: 'GET'})
-      @route({path: '/bar'})
+      @D.route({method: 'GET'})
+      @D.route({path: '/bar'})
       bar() {
 
       }
 
-      @route({path: '/baz'})
+      @D.route({path: '/baz'})
       baz() {
 
       }
@@ -105,10 +105,10 @@ describe('Plugin', () => {
   })
 
   test('Register routes with classic route handler', () => {
-    @controller()
+    @D.controller()
     class Foo {
 
-      @route({path: '/bar'})
+      @D.route({path: '/bar'})
       bar(req: any, h: any) {
         return ['baz', req, h].join(' ')
       }
@@ -132,5 +132,100 @@ describe('Plugin', () => {
     expect(options.controllerFactory).toBeCalledTimes(2)
     expect(options.controllerFactory).toBeCalledWith(Foo)
     expect(response).toEqual('baz req reskit')
+  })
+
+  describe('Routes with injected arguments', () => {
+    //mocked request
+    const req = {
+      params: {
+        foo: 'foooo',
+        bar: 'baz',
+      },
+
+      query: {
+        foo: 'bar',
+      },
+
+      state: {
+        foo: 'quux',
+      },
+
+      payload: { foo: 'payload', bar: { baz: 'quux' } },
+    }
+
+    //mocked response toolkit
+    const h = Symbol('responseTooltik')
+
+    test.each([
+      // decorator          arguments         expected value
+      ['param',             ['foo'],          'foooo'],
+      ['param',             ['foo', 'bar'],   'foooo'],
+      ['param',             ['baz'],          undefined],
+      ['param',             ['baz', 'bar'],   'bar'],
+      ['queryParam',        ['foo'],          'bar'],
+      ['queryParam',        ['foo', 'baz'],   'bar'],
+      ['queryParam',        ['baz'],          undefined],
+      ['queryParam',        ['baz', 'qux'],   'qux'],
+      ['cookie',            ['foo'],          'quux'],
+      ['cookie',            ['foo', 'bar'],   'quux'],
+      ['cookie',            ['bar'],          undefined],
+      ['cookie',            ['bar', 'baz'],   'baz'],
+      ['payload',           [],               { foo: 'payload', bar: { baz: 'quux' } }],
+      ['payload',           ['foo'],          'payload'],
+      ['payload',           ['bar.baz'],      'quux'],
+      ['payload',           ['baz', 'foo'],   'foo'],
+      ['payload',           ['baz'],          undefined],
+      ['request',           [],               req],
+      ['responseToolkit',   [],               h],
+
+    ])('@%s with args %p', (name, args, expectedValue) => {
+      const decorator = (<any>D)[name]
+
+      @D.controller()
+      class Foo {
+
+        @D.route({path: '/bar'})
+        bar(@decorator(...args) param: any) {
+          return param
+        }
+      }
+
+      const server = {route: jest.fn()}
+
+      const options = {
+        registerController: jest.fn(),
+      }
+
+      plugin.register(<any>server, options)
+
+      const handler  = server.route.mock.calls[0][0][0].handler
+      const value = handler(req, h)
+
+      expect(value).toEqual(expectedValue)
+    })
+
+    test('Undecorated arguments are set to undefined', () => {
+      @D.controller()
+      class Foo {
+
+        @D.route({path: '/bar'})
+        bar(@D.param('foo') a: any, b: any, @D.queryParam('foo') c: any) {
+          return [a, b, c]
+        }
+      }
+
+      const server = {route: jest.fn()}
+
+      const options = {
+        registerController: jest.fn(),
+      }
+
+      plugin.register(<any>server, options)
+
+      const handler  = server.route.mock.calls[0][0][0].handler
+      const value = handler(req, h)
+
+      expect(value).toEqual(['foooo', undefined, 'bar'])
+    })
   })
 })

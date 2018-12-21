@@ -70,7 +70,6 @@
     "prefer-conditional-expression": true,
     "prefer-object-spread": true,
     "strict-type-predicates": true,
-    "switch-default": true,
     "triple-equals": true,
     "use-isnan": true,
     "cyclomatic-complexity": [

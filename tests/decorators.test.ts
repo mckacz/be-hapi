@@ -1,5 +1,5 @@
 import * as D from '../src/decorators'
-import { Metadata } from '../src/constants'
+import { MetadataKey } from '../src/constants'
 import { cleanGlobalControllerList } from './utils'
 
 describe('Decorators', () => {
@@ -13,8 +13,8 @@ describe('Decorators', () => {
 
       }
 
-      expect(Reflect.hasMetadata(Metadata.controller, Foo)).toBeTruthy()
-      expect(Reflect.getMetadata(Metadata.controller, Foo)).toEqual({
+      expect(Reflect.hasMetadata(MetadataKey.controller, Foo)).toBeTruthy()
+      expect(Reflect.getMetadata(MetadataKey.controller, Foo)).toEqual({
         target:    Foo,
         basePath:  '/foo',
         routeSpec: {
@@ -29,8 +29,8 @@ describe('Decorators', () => {
       @D.controller('/foo', {options: {tags: ['bar']}})
       class Foo {}
 
-      expect(Reflect.hasMetadata(Metadata.controller, Reflect)).toBeTruthy()
-      expect(Reflect.getMetadata(Metadata.controller, Reflect)).toEqual([
+      expect(Reflect.hasMetadata(MetadataKey.controller, Reflect)).toBeTruthy()
+      expect(Reflect.getMetadata(MetadataKey.controller, Reflect)).toEqual([
         {
           target:    Foo,
           basePath:  '/foo',
@@ -59,8 +59,8 @@ describe('Decorators', () => {
         bar() {}
       }
 
-      expect(Reflect.hasMetadata(Metadata.route, Foo)).toBeTruthy()
-      expect(Reflect.getMetadata(Metadata.route, Foo)).toEqual([
+      expect(Reflect.hasMetadata(MetadataKey.route, Foo)).toBeTruthy()
+      expect(Reflect.getMetadata(MetadataKey.route, Foo)).toEqual([
         {
           handlerName: 'bar',
           routeSpec:   {path: '/bar'},
@@ -119,7 +119,121 @@ describe('Decorators', () => {
         }
       }
 
-      expect(Reflect.getMetadata(Metadata.route, Foo)[0].routeSpec).toEqual(expectedSpec)
+      expect(Reflect.getMetadata(MetadataKey.route, Foo)[0].routeSpec).toEqual(expectedSpec)
+    })
+  })
+
+  describe('Argument decorators', () => {
+    test('Arguments metadata should be added to list of route argument metadata in constructor of the class', () => {
+      class Foo {
+        @D.route({path: '/bar'})
+        bar(
+          @D.param('foo', 'baz') foo: string,
+          @D.queryParam('qux')   qux: string,
+          @D.cookie('quux')      quux: string,
+          @D.payload()           body: any,
+          @D.payload('baz')      baz: any,
+          @D.request()           req: any,
+          @D.responseToolkit()   h: any,
+          @D.req()               req2: any,
+          @D.res()               h2: any,
+        ) {
+
+        }
+      }
+
+      expect(Reflect.hasMetadata(MetadataKey.argument, Foo)).toBeTruthy()
+      expect(Reflect.getMetadata(MetadataKey.argument, Foo)).toHaveLength(9)
+
+      expect(Reflect.getMetadata(MetadataKey.argument, Foo)).toContainEqual(
+        {
+          type:         'param',
+          handlerName:  'bar',
+          index:        0,
+          name:         'foo',
+          defaultValue: 'baz',
+        },
+      )
+
+      expect(Reflect.getMetadata(MetadataKey.argument, Foo)).toContainEqual(
+        {
+          type:         'query',
+          handlerName:  'bar',
+          index:        1,
+          name:         'qux',
+          defaultValue: undefined,
+        },
+      )
+
+      expect(Reflect.getMetadata(MetadataKey.argument, Foo)).toContainEqual(
+        {
+          type:         'cookie',
+          handlerName:  'bar',
+          index:        2,
+          name:         'quux',
+          defaultValue: undefined,
+        },
+      )
+
+      expect(Reflect.getMetadata(MetadataKey.argument, Foo)).toContainEqual(
+        {
+          type:         'payload',
+          handlerName:  'bar',
+          index:        3,
+          name:         undefined,
+          defaultValue: undefined,
+        },
+      )
+
+      expect(Reflect.getMetadata(MetadataKey.argument, Foo)).toContainEqual(
+        {
+          type:         'payload',
+          handlerName:  'bar',
+          index:        4,
+          name:         'baz',
+          defaultValue: undefined,
+        },
+      )
+
+      expect(Reflect.getMetadata(MetadataKey.argument, Foo)).toContainEqual(
+        {
+          type:         'request',
+          handlerName:  'bar',
+          index:        5,
+          name:         undefined,
+          defaultValue: undefined,
+        },
+      )
+
+      expect(Reflect.getMetadata(MetadataKey.argument, Foo)).toContainEqual(
+        {
+          type:         'responseToolkit',
+          handlerName:  'bar',
+          index:        6,
+          name:         undefined,
+          defaultValue: undefined,
+        },
+      )
+
+      expect(Reflect.getMetadata(MetadataKey.argument, Foo)).toContainEqual(
+        {
+          type:         'request',
+          handlerName:  'bar',
+          index:        7,
+          name:         undefined,
+          defaultValue: undefined,
+        },
+      )
+
+      expect(Reflect.getMetadata(MetadataKey.argument, Foo)).toContainEqual(
+        {
+          type:         'responseToolkit',
+          handlerName:  'bar',
+          index:        8,
+          name:         undefined,
+          defaultValue: undefined,
+        },
+      )
     })
   })
 })

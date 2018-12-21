@@ -1,5 +1,5 @@
 import { getControllersMetadata, getRoutesMetadata, pushMetadata } from '../src/utils'
-import { Metadata } from '../src/constants'
+import { MetadataKey } from '../src/constants'
 
 describe('Utils', () => {
 
@@ -11,7 +11,7 @@ describe('Utils', () => {
       expect(Reflect.getMetadata('foo', target)).toEqual(['bar'])
     })
 
-    test('Metadata should be added to existing list', () => {
+    test('MetadataKey should be added to existing list', () => {
       const target = {}
 
       Reflect.defineMetadata('foo', ['baz'], target)
@@ -23,7 +23,7 @@ describe('Utils', () => {
 
   describe('getControllersMetadata()', () => {
     afterEach(() => {
-      Reflect.deleteMetadata(Metadata.controller, Reflect)
+      Reflect.deleteMetadata(MetadataKey.controller, Reflect)
     })
 
     test('Returns empty list if there is no metadata', () => {
@@ -31,7 +31,7 @@ describe('Utils', () => {
     })
 
     test('Returns list of metadata', () => {
-      Reflect.defineMetadata(Metadata.controller, ['foo'], Reflect)
+      Reflect.defineMetadata(MetadataKey.controller, ['foo'], Reflect)
 
       expect(getControllersMetadata()).toEqual(['foo'])
     })
@@ -47,7 +47,7 @@ describe('Utils', () => {
     test('Returns list of metadata', () => {
       class Foo {}
 
-      Reflect.defineMetadata(Metadata.route, ['foo'], Foo)
+      Reflect.defineMetadata(MetadataKey.route, ['foo'], Foo)
 
       expect(getRoutesMetadata(Foo)).toEqual(['foo'])
     })

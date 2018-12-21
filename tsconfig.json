@@ -8,8 +8,7 @@
     "strict": true,
     "types": ["node", "jest", "reflect-metadata"],
     "esModuleInterop": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "experimentalDecorators": true
   },
   "include": [
     "src/**/*.ts"

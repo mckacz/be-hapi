@@ -1,11 +1,13 @@
 import * as R from 'ramda'
-import { Plugin, Request, ResponseToolkit, Server, ServerRoute } from 'hapi'
-import { getControllersMetadata, getRoutesMetadata } from './utils'
+import { Plugin, Request, RequestQuery, ResponseToolkit, Server, ServerRoute } from 'hapi'
+import { getControllersMetadata, getRouteArgumentsMetadata, getRoutesMetadata } from './utils'
+import { RouteArgumentType } from './constants'
 import {
   ControllerConstructor,
   ControllerFactory,
-  ControllerRouteMetadata,
   PluginOptions,
+  RouteArgumentMetadata,
+  RouteMetadata,
   RouteSpec,
 } from './interfaces'
 
@@ -33,7 +35,7 @@ function getServerRoutes(options: PluginOptions): ServerRoute[] {
   for (const controller of controllers) {
     options.registerController(controller.target)
 
-    const routesMetadataByHandler = R.groupBy<ControllerRouteMetadata>(
+    const routesMetadataByHandler = R.groupBy<RouteMetadata>(
       R.prop('handlerName'),
       getRoutesMetadata(controller.target),
     )
@@ -66,12 +68,61 @@ function getServerRoutes(options: PluginOptions): ServerRoute[] {
   return serverRoutes
 }
 
+function resolveHandlerArguments(metadatas: RouteArgumentMetadata[], req: Request, h: ResponseToolkit): any[] {
+  if (metadatas.length === 0) {
+    return [req, h]
+  }
+
+  const args: any[] = []
+
+  for (const metadata of metadatas) {
+    while (args.length < metadata.index) {
+      args.push(undefined)
+    }
+
+    switch (metadata.type) {
+      case RouteArgumentType.param:
+        args.push(req.params[metadata.name as string] || metadata.defaultValue)
+        break
+
+      case RouteArgumentType.query:
+        args.push((req.query as RequestQuery)[metadata.name as string] || metadata.defaultValue)
+        break
+
+      case RouteArgumentType.cookie:
+        args.push(req.state[metadata.name as string] || metadata.defaultValue)
+        break
+
+      case RouteArgumentType.payload:
+        if (metadata.name) {
+          args.push(R.path(metadata.name.split('.'), req.payload) || metadata.defaultValue)
+        } else {
+          args.push(req.payload)
+        }
+
+        break
+
+      case RouteArgumentType.request:
+        args.push(req)
+        break
+
+      case RouteArgumentType.responseToolkit:
+        args.push(h)
+    }
+  }
+
+  return args
+}
+
 function createRouteHandler<T>(factory: ControllerFactory, constructor: ControllerConstructor<T>, handlerName: string) {
+  const metadatas = getRouteArgumentsMetadata(constructor, handlerName)
+
   return (req: Request, h: ResponseToolkit) => {
     const controllerInstance = factory(constructor)
     const handler            = controllerInstance[handlerName]
+    const args               = resolveHandlerArguments(metadatas, req, h)
 
-    return handler.call(controllerInstance, req, h)
+    return handler.apply(controllerInstance, args)
   }
 }
 
