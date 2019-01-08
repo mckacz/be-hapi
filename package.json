@@ -1,5 +1,5 @@
 {
-  "name": "@mckacz/be-hapi",
+  "name": "be-hapi",
   "version": "0.0.1",
   "description": "Decorated class-based controllers for Hapi with IoC support (like InversifyJS).",
   "author": "Maciej Kaczmarek <maciej@kaczmarek.io>",
@@ -12,6 +12,13 @@
     "ioc",
     "controllers"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mckacz/be-hapi.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mckacz/be-hapi/issues"
+  },
   "main": "lib/index.js",
   "jsnext:main": "es/index.js",
   "types": "dts/index.d.ts",
