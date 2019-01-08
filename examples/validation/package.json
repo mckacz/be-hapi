@@ -1,0 +1,25 @@
+{
+  "name": "be-hapi-simple-example",
+  "version": "0.0.1",
+  "author": "Maciej Kaczmarek <maciej@kaczmarek.io>",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon --exec ts-node src/server.ts"
+  },
+  "dependencies": {
+    "be-hapi": "file:../..",
+    "hapi": "^17.8.1",
+    "inert": "^5.1.2",
+    "joi": "^14.3.1",
+    "reflect-metadata": "^0.1.12"
+  },
+  "devDependencies": {
+    "@types/hapi": "^17.8.0",
+    "@types/inert": "^5.1.2",
+    "@types/joi": "^14.0.1",
+    "@types/node": "^10.12.12",
+    "nodemon": "^1.18.9",
+    "ts-node": "^7.0.1",
+    "typescript": "^3.2.2"
+  }
+}
