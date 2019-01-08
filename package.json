@@ -1,15 +1,20 @@
 {
   "name": "@mckacz/be-hapi",
   "version": "0.0.1",
-  "description": "Class-based controllers with Inversify support for Hapi.",
+  "description": "Decorated class-based controllers for Hapi with IoC support (like InversifyJS).",
   "author": "Maciej Kaczmarek <maciej@kaczmarek.io>",
   "license": "MIT",
   "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "jsnext:main": "es/index.js",
+  "types": "dts/index.d.ts",
   "scripts": {
     "lint": "tslint --project .",
     "test": "jest",
-    "build": "rimraf lib && tsc"
+    "clean": "rimraf lib es dts coverage",
+    "build": "yarn clean && yarn build:cjs && yarn build:es && yarn build:dts",
+    "build:cjs": "tsc",
+    "build:es": "tsc --build tsconfig.es6.json",
+    "build:dts": "tsc --build tsconfig.dts.json"
   },
   "dependencies": {
     "@types/hapi": "^17.8.0",

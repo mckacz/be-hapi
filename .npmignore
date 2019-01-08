@@ -1,3 +1,4 @@
+.gitignore
 .idea
 coverage
 node_modules
@@ -6,3 +7,5 @@ es
 dts
 package-lock.json
 yarn.lock
+src
+tests
