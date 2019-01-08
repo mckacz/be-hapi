@@ -1,11 +1,13 @@
 .gitignore
 .idea
+.circleci
 coverage
 node_modules
-lib
-es
-dts
 package-lock.json
 yarn.lock
+test-results
 src
 tests
+examples
+tsconfig*
+tslint.json

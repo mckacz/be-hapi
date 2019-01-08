@@ -4,13 +4,23 @@
   "description": "Decorated class-based controllers for Hapi with IoC support (like InversifyJS).",
   "author": "Maciej Kaczmarek <maciej@kaczmarek.io>",
   "license": "MIT",
+  "keywords": [
+    "node",
+    "hapi",
+    "decorators",
+    "inversify",
+    "ioc",
+    "controllers"
+  ],
   "main": "lib/index.js",
   "jsnext:main": "es/index.js",
   "types": "dts/index.d.ts",
   "scripts": {
     "lint": "tslint --project .",
+    "lint:ci": "mkdir -p test-results/tslint && tslint --project . -o test-results/tslint/results.xml -t junit",
     "test": "jest",
-    "clean": "rimraf lib es dts coverage",
+    "test:ci": "jest --ci --reporters=default --reporters=jest-junit",
+    "clean": "rimraf lib es dts coverage test-results",
     "build": "yarn clean && yarn build:cjs && yarn build:es && yarn build:dts",
     "build:cjs": "tsc",
     "build:es": "tsc --build tsconfig.es6.json",
@@ -26,6 +36,7 @@
     "@types/node": "^10.12.12",
     "@types/ramda": "^0.25.44",
     "jest": "^23.6.0",
+    "jest-junit": "^5.2.0",
     "reflect-metadata": "^0.1.12",
     "rimraf": "^2.6.2",
     "ts-jest": "^23.10.5",
@@ -51,5 +62,8 @@
       "json",
       "node"
     ]
+  },
+  "jest-junit": {
+    "outputDirectory": "./test-results/jest"
   }
 }

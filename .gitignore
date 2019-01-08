@@ -6,3 +6,4 @@ es
 dts
 package-lock.json
 yarn.lock
+test-results
