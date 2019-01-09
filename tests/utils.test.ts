@@ -1,4 +1,4 @@
-import { getControllersMetadata, getRoutesMetadata, pushMetadata } from '../src/utils'
+import { getControllersMetadata, getRouteArgumentsMetadata, getRoutesMetadata, pushMetadata } from '../src/utils'
 import { MetadataKey } from '../src/constants'
 
 describe('Utils', () => {
@@ -51,6 +51,34 @@ describe('Utils', () => {
 
       expect(getRoutesMetadata(Foo)).toEqual(['foo'])
     })
+  })
+
+  describe('getRouteArgumentsMetadata()', () => {
+    test('Returns empty list if there is no metadata', () => {
+      class Foo {}
+
+      expect(getRouteArgumentsMetadata(Foo, 'bar')).toEqual([])
+    })
+
+    test('Returns list of metadata with correct order and filtered by handler name ', () => {
+      class Foo {}
+
+      Reflect.defineMetadata(
+        MetadataKey.argument,
+        [
+          { foo: 123, handlerName: 'foo', index: 1 },
+          { foo: 456, handlerName: 'bar', index: 0 },
+          { foo: 234, handlerName: 'foo', index: 0 },
+        ],
+        Foo
+      )
+
+      expect(getRouteArgumentsMetadata(Foo, 'foo')).toEqual([
+        { foo: 234, handlerName: 'foo', index: 0 },
+        { foo: 123, handlerName: 'foo', index: 1 },
+      ])
+    })
+
   })
 
 })
