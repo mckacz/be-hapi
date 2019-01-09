@@ -16,7 +16,7 @@ export interface ControllerDecorator {
 }
 
 export interface RouteDecorator {
-  (target: any, handlerName: string): void
+  (target: any, handlerName?: string): void
 }
 
 export interface ArgumentDecorator {

@@ -10,7 +10,6 @@ import {
   ControllerMetadata,
   RouteArgumentMetadata,
   RouteDecorator,
-  RouteMetadata,
   RouteSpec,
 } from './interfaces'
 
@@ -35,12 +34,25 @@ export function controller<T extends Controller>(basePath?: string, routeSpec?: 
 
 export function route(routeSpec: RouteSpec): RouteDecorator {
   return function (target, handlerName) {
-    const metadata: RouteMetadata = {
-      handlerName,
-      routeSpec,
+    if (handlerName) {        // decorated class method
+      pushMetadata(
+        MetadataKey.route,
+        {
+          handlerName,
+          routeSpec,
+        },
+        target.constructor
+      )
+    } else {                  // decorated class
+      pushMetadata(
+        MetadataKey.route,
+        {
+          handlerName: '',
+          routeSpec,
+        },
+        target
+      )
     }
-
-    pushMetadata(MetadataKey.route, metadata, target.constructor)
   }
 }
 

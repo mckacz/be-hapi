@@ -104,6 +104,40 @@ describe('Plugin', () => {
     ])
   })
 
+  test('Register routes with base route spec defined with decorator', () => {
+    @D.post()
+    @D.controller()
+    class Foo {
+
+      @D.route({method: 'GET'})
+      @D.route({path: '/bar'})
+      bar() {
+
+      }
+
+      @D.route({path: '/baz'})
+      baz() {
+
+      }
+    }
+
+    const server = {route: jest.fn()}
+    plugin.register(<any>server, {})
+
+    expect(server.route).toBeCalledWith([
+      {
+        handler: expect.any(Function),
+        method:  'GET',
+        path:    '/bar',
+      },
+      {
+        handler: expect.any(Function),
+        method:  'POST',
+        path:    '/baz',
+      },
+    ])
+  })
+
   test('Register routes with classic route handler', () => {
     @D.controller()
     class Foo {

@@ -36,12 +36,22 @@ function getServerRoutes(options: PluginOptions): ServerRoute[] {
     options.registerController(controller.target)
 
     const routesMetadataByHandler = R.groupBy<RouteMetadata>(
-      R.prop('handlerName'),
-      getRoutesMetadata(controller.target),
+      (meta) => meta.handlerName,
+      getRoutesMetadata(controller.target)
     )
+
+    let baseRotueSpec: RouteSpec[] = []
+
+    // base route specification defined by decorators
+    if ('' in routesMetadataByHandler) {
+      baseRotueSpec = R.map(R.prop('routeSpec'), routesMetadataByHandler[''])
+      delete routesMetadataByHandler['']
+    }
 
     for (const handlerName of Object.keys(routesMetadataByHandler)) {
       const routeSpecs: RouteSpec[] = R.map(R.prop('routeSpec'), routesMetadataByHandler[handlerName])
+
+      routeSpecs.unshift(...baseRotueSpec)
 
       if (controller.routeSpec) {
         routeSpecs.unshift(controller.routeSpec)
@@ -60,7 +70,6 @@ function getServerRoutes(options: PluginOptions): ServerRoute[] {
       }
 
       serverRoute.handler = createRouteHandler(options.controllerFactory, controller.target, handlerName)
-
       serverRoutes.push(serverRoute as ServerRoute)
     }
   }
