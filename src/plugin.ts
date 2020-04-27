@@ -1,5 +1,5 @@
 import * as R from 'ramda'
-import { Plugin, Request, RequestQuery, ResponseToolkit, Server, ServerRoute } from 'hapi'
+import { Plugin, Request, RequestQuery, ResponseToolkit, Server, ServerRoute } from '@hapi/hapi'
 import { getControllersMetadata, getRouteArgumentsMetadata, getRoutesMetadata } from './utils'
 import { RouteArgumentType } from './constants'
 import {

@@ -1,4 +1,4 @@
-import { ServerRoute } from 'hapi'
+import { ServerRoute } from '@hapi/hapi'
 import { RouteArgumentType } from './constants'
 
 export type RouteSpec = Partial<ServerRoute>

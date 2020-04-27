@@ -1,4 +1,4 @@
-import { RouteOptions, Util } from 'hapi'
+import { RouteOptions, Util } from '@hapi/hapi'
 import { MetadataKey, RouteArgumentType } from './constants'
 import { ControllerAlreadyDecoratedError } from './errors'
 import { pushMetadata } from './utils'
