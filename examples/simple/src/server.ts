@@ -1,7 +1,7 @@
 import 'reflect-metadata'                                    // Reflect API support
-import { Server } from 'hapi'                                // hapi server
+import { Server } from '@hapi/hapi'                                // hapi server
 
-import inert from 'inert'                                    // plugin to server static content
+import inert from '@hapi/inert'                              // plugin to server static content
 import beHapi from 'be-hapi'                                 // be-hapi plugin
 
 import './controller'                                        // import the controller

@@ -60,7 +60,7 @@ class HelloController {
 
 ```ts
 // server.ts
-import { Server } from 'hapi' 
+import { Server } from '@hapi/hapi' 
 import beHapi from 'be-hapi'
 
 // import previously created controller

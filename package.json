@@ -43,11 +43,11 @@
     "@types/hapi__catbox": "^10.2.2",
     "@types/hapi__hapi": "^19.0.3",
     "@types/hapi__joi": "^16.0.12",
-    "@types/hapi__mimos": "^4.1.1",
+    "@types/hapi__mimos": "^4.1.2",
     "@types/hapi__podium": "^3.4.0",
     "@types/hapi__shot": "^4.1.0",
     "@types/jest": "^25.2.1",
-    "@types/node": "^13.13.2",
+    "@types/node": "*",
     "@types/ramda": "^0.27.4",
     "jest": "^25.4.0",
     "jest-diff": "^25.4.0",
@@ -56,9 +56,9 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "ts-jest": "^25.4.0",
-    "ts-node": "^8.9.0",
+    "ts-node": "^8.9.1",
     "ts-toolbelt": "^6.5.1",
-    "tslint": "^6.1.1",
+    "tslint": "^6.1.2",
     "typescript": "^3.8.3"
   },
   "jest": {
@@ -72,7 +72,9 @@
     },
     "testRegex": "(/tests/(.*))\\.test.(tsx?)$",
     "testEnvironment": "node",
-    "setupTestFrameworkScriptFile": "./tests/bootstrap.ts",
+    "setupFilesAfterEnv": [
+      "./tests/bootstrap.ts"
+    ],
     "moduleFileExtensions": [
       "ts",
       "js",

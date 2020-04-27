@@ -5,11 +5,6 @@
       true,
       "no-public"
     ],
-    "member-ordering": [
-      true,
-      "static-before-instance",
-      "variables-before-functions"
-    ],
     "no-import-side-effect": true,
     "no-inferrable-types": true,
     "no-parameter-reassignment": true,
@@ -61,7 +56,6 @@
     "no-this-assignment": true,
     "no-unsafe-finally": true,
     "no-unused-expression": true,
-    "no-use-before-declare": true,
     "no-var-keyword": true,
     "no-void-expression": [
       true,

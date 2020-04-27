@@ -1,5 +1,5 @@
-import * as Joi from 'joi'
-import { Request, ResponseToolkit } from 'hapi'
+import * as Joi from '@hapi/joi'
+import { Request, ResponseToolkit } from '@hapi/hapi'
 import { controller, get, payload, post, res, validate } from 'be-hapi'
 
 const formSchema = Joi.object({

@@ -1,4 +1,4 @@
-import { ResponseToolkit } from 'hapi'
+import { ResponseToolkit } from '@hapi/hapi'
 import { controller, get, payload, post, res } from 'be-hapi'
 
 @controller()
